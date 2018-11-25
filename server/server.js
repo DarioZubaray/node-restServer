@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 
 app.use( require('./routes/usuario') );
 
-mongoose.connect('mongodb://localhost:27017/cafe', (err, resp) => {
+mongoose.connect(process.env.URLDB, (err, resp) => {
   if(err){
     throw err;
   }
