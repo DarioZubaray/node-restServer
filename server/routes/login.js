@@ -69,12 +69,14 @@ app.post('/google', async (req, res) => {
   console.log('Post google sign in');
   let token = req.body.idtoken;
 
-  let googleUser = await verify(token).catch(err => {
-    return res.status(403).json({
-      ok: false,
-      err
-    });
-  });
+  let googleUser = await verify(token)
+        .catch(e => {
+              console.log('error verify token', e);
+              return res.status(403).json({
+                  ok: false,
+                  err: e
+              });
+        });
 
   Usuario.findOne({ email: googleUser.email}, (err, usuarioDB) => {
     if(err){
@@ -91,7 +93,9 @@ app.post('/google', async (req, res) => {
         console.log('Usuario local identificándose con google');
         return res.status(400).json({
           ok: false,
-          err
+          err: {
+            message: 'Debe de usar su autenticación normal'
+          }
         });
       } else {
         console.log('usuario google registrado... renovando token');
@@ -115,28 +119,28 @@ app.post('/google', async (req, res) => {
       usuario.img = googleUser.picture;
       usuario.google = true;
       usuario.password = ':)';
+      console.log('usuario creado :)');
 
       usuario.save((err, usuarioDB) => {
         if(err){
+          console.log('error al guardar');
           return res.status(500).json({
             ok: false,
             err
           });
         }
-
+        console.log('generando token');
         let token = jwt.sign({
           usuario: usuarioDB
         }, process.env.SEED_TOKEN, {expiresIn: process.env.CADUCIDAD_TOKEN});
-
+        console.log('retornando el estado-usuario-token');
         return res.json({
           ok: true,
           usuario: usuarioDB,
           token
         });
       });
-
     }
-
   });
 });
 
