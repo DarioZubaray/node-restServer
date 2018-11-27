@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use( express.static( path.resolve(__dirname, '../public')));
-app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
+app.use('/css', express.static( path.resolve(__dirname, '../node_modules/bootstrap/dist/css')));
 app.use( require('./routes/index') );
 
 mongoose.connect(process.env.URLDB, (err, resp) => {
