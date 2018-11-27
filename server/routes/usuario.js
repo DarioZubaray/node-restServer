@@ -32,7 +32,8 @@ app.get('/usuario', verificaToken, (req, res) => {
                  err
                });
              }
-             res.json({
+
+             return res.json({
                  ok: true,
                  conteo,
                  usuarios
@@ -60,7 +61,7 @@ app.post('/usuario', [verificaToken, verificaAdmin_Role], (req, res) => {
       });
     }
 
-    res.json({
+     return res.json({
       ok: true,
       usuario: usuarioDB
     });
@@ -79,7 +80,8 @@ app.put('/usuario/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
         err
       });
     }
-    res.json({
+
+    return res.json({
       ok: true,
       usuario: usuarioDB
     });
@@ -106,7 +108,7 @@ app.delete('/usuario/:id', [verificaToken, verificaAdmin_Role], (req, res) => {
       });
     }
 
-    res.json({
+    return res.json({
       ok: true,
       usuario: usuarioBorrado
     });
