@@ -2,6 +2,8 @@ const express = require('express');
 const fileUpload = require('express-fileupload');
 const app = express();
 const Usuario = require('../models/usuario');
+const fs = require('fs');
+const path = require('path');
 
 app.use(fileUpload());
 
@@ -56,17 +58,13 @@ app.put('/upload/:tipo/:id', (req, res) => {
     }
 
     imagenUsuario(id, res, nuevoNombreArchivo);
-    // return res.json({
-    //   ok: true,
-    //   message: 'Archivo subido correctamente!',
-    //   archivoRecibido: archivoSubido.name
-    // })
   });
 });
 
 function imagenUsuario(id, res, nuevoNombreArchivo){
   Usuario.findById(id, (err, usuarioDB) => {
     if(err){
+      borrarArchivo(nuevoNombreArchivo, 'usuario');
       return res.status(500).json({
         ok: false,
         err
@@ -74,6 +72,7 @@ function imagenUsuario(id, res, nuevoNombreArchivo){
     }
 
     if(!usuarioDB){
+      borrarArchivo(nuevoNombreArchivo, 'usuario');
       return res.status(400).json({
         ok: false,
         err: {
@@ -81,9 +80,10 @@ function imagenUsuario(id, res, nuevoNombreArchivo){
         }
       })
     }
-    console.log(usuarioDB);
+
+    borrarArchivo(usuarioDB.img, 'usuario');
+
     usuarioDB.img = nuevoNombreArchivo;
-    console.log(usuarioDB);
 
     usuarioDB.save( (err, usuarioGuardado) => {
       if(err){
@@ -103,6 +103,14 @@ function imagenUsuario(id, res, nuevoNombreArchivo){
 }
 function imagenProducto(id){
 
+}
+
+function borrarArchivo(nombreImagen, tipo){
+  let pathImagen = path.resolve(__dirname, `../../uploads/${ tipo }/${ nombreImagen }`);
+  if(fs.existsSync( pathImagen )){
+    console.log('borrando imagen anterior');
+    fs.unlinkSync( pathImagen );
+  }
 }
 
 module.exports = app;
