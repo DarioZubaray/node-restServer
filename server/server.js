@@ -14,7 +14,7 @@ app.use( express.static( path.resolve(__dirname, '../public')));
 app.use('/css', express.static( path.resolve(__dirname, '../node_modules/bootstrap/dist/css')));
 app.use( require('./routes/index') );
 
-mongoose.connect(process.env.URLDB, (err, resp) => {
+mongoose.connect(process.env.URLDB, { useCreateIndex: true, useNewUrlParser: true }, (err, resp) => {
   if(err){
     throw err;
   }
