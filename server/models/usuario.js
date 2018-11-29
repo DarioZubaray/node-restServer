@@ -22,7 +22,7 @@ let usuarioSchema = new Schema({
     require: [true, 'La constraseña es obligatoria']
   },
   img: {
-    tpe: String,
+    type: String,
     require: false
   },
   role: {
