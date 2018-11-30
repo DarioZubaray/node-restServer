@@ -25,6 +25,7 @@
   - {{url}}/ _index_
 
 
+Recuerdar:
 ```
 npm install
 ```
