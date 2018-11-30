@@ -42,3 +42,6 @@ npm install
   - [google-auth-library](https://www.npmjs.com/package/google-auth-library) - [github](https://github.com/google/google-auth-library-nodejs#readme)
   - [jwt.io](https://jwt.io/): [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) - [github](https://github.com/auth0/node-jsonwebtoken#readme)
   - [bootstrap](https://www.npmjs.com/package/bootstrap) - [homepage](https://getbootstrap.com/)
+
+### Dependencias de desarrollo:
+  - [nodemon](https://www.npmjs.com/package/nodemon) - [homepage](https://nodemon.io/)
